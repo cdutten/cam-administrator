@@ -10,21 +10,13 @@ class CameraController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(
+            Camera::paginate(15)
+                ->toArray()
+        );
     }
 
     /**
@@ -45,17 +37,6 @@ class CameraController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Camera $camera)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Camera  $camera
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Camera $camera)
     {
         //
     }
