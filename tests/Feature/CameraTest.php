@@ -13,21 +13,23 @@ class CameraTest extends TestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testShowAllTheCameras()
     {
         $response = $this->get('api/cameras');
-
-        //TODO: harcoded
         $response->assertStatus(200);
-        //TODO: Algo a ver es si queremos tener este data en los jsons...
-        // Aunque en ciertos casos sirva y puede ser mas dinamico es un poco feo
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'id',
-                    'name',
-                ]
-            ]
-        ]);
+        $response->assertJsonStructure(['data' => ['*' => ['id', 'name',]]]);
+    }
+
+    public function testCreateACamera()
+    {
+        $response = $this->post('api/cameras', ['name' => 'azucar', 'location_id' => 1]);
+        $response->assertStatus(200);
+
+    }
+
+    public function testShowOneCameraById()
+    {
+        $response = $this->get('api/cameras/5');
+        $response->assertStatus(200);
     }
 }
