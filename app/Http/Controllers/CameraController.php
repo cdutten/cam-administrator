@@ -15,7 +15,7 @@ class CameraController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(Camera::paginate(15)->toArray());
+        return response()->json(Camera::paginate(15));
     }
 
     /**
@@ -25,7 +25,10 @@ class CameraController extends Controller
      */
     public function store(Request $request): void
     {
-        $camera = new Camera(['name' => $request->name, 'location_id' => $request->location_id,]);
+        $camera = new Camera([
+            'name' => $request->name,
+            'location_id' => $request->location_id,
+        ]);
         $camera->save();
     }
 
@@ -33,11 +36,12 @@ class CameraController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Camera $camera
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Camera $camera)
     {
-        return response([$camera->toArray()], 200);
+        return response(['data' => $camera->toArray()], 200);
     }
 
     /**
@@ -45,7 +49,6 @@ class CameraController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Camera $camera
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Camera $camera)
     {
@@ -56,10 +59,12 @@ class CameraController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Camera $camera
-     * @return \Illuminate\Http\Response
+     *
+     *
+     * @throws \Exception
      */
     public function destroy(Camera $camera)
     {
-        //
+        $camera->delete();
     }
 }

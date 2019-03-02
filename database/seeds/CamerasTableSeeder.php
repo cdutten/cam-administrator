@@ -9,6 +9,8 @@ class CamerasTableSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
@@ -21,10 +23,16 @@ class CamerasTableSeeder extends Seeder
      * Get a random location id from database
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
-    private function getRandomLocationId(): int
+    public static function getRandomLocationId(): int
     {
         $location = Location::inRandomOrder()->first();
+        if (empty($location)) {
+            throw new \Exception('I can\'t get a Location from database');
+        }
+
         return $location->id;
     }
 }

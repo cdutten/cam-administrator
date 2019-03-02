@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Camera extends Model
 {
+    use SoftDeletes;
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +25,6 @@ class Camera extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'location_id'
+        'deleted_at'
     ];
 }

@@ -18,6 +18,7 @@ class CreateCamerasTable extends Migration
             $table->string('name');
             $table->unsignedInteger('location_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('location_id')
                 ->references('id')
