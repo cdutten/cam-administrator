@@ -11,3 +11,4 @@ Route::get('/cameras', 'CameraController@index');
 Route::get('/cameras/{camera}', 'CameraController@show');
 Route::post('/cameras', 'CameraController@store');
 Route::delete('/cameras/{camera}', 'CameraController@destroy');
+Route::patch('/cameras/{camera}', 'CameraController@update');

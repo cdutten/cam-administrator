@@ -52,7 +52,7 @@ class CameraController extends Controller
      */
     public function update(Request $request, Camera $camera)
     {
-        //
+        $camera->update($request->all());
     }
 
     /**

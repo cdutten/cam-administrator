@@ -16,7 +16,7 @@ class CameraTest extends TestCase
     {
         $response = $this->get('api/cameras');
         $response->assertStatus(200)
-            ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]]);
+                 ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]]);
     }
 
     /**
@@ -43,12 +43,41 @@ class CameraTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testShowOneCameraById()
+    public function testShowOneCamera()
     {
         $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
         $response = $this->get("api/cameras/{$camera->id}");
         $response->assertStatus(200)
-            ->assertJsonStructure(['data' => ["name", "location_id"]]);
+                 ->assertJsonStructure(['data' => ["name", "location_id"]]);
+    }
+
+    /**
+     * Camera update entity endpoint test
+     *
+     * @throws \Exception
+     */
+    public function testUpdateCameraAttributes()
+    {
+        /** @var Camera $camera */
+        $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
+        $newAttributes = [
+            'id' => $camera->id,
+            'name' => 'new beautiful name',
+            'location_id' => \CamerasTableSeeder::getRandomLocationId()
+        ];
+        $response = $this->patch("api/cameras/{$camera->id}", $newAttributes);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing(
+            with(new Camera)->getTable(),
+            $camera->getAttributes()
+        );
+
+        $this->assertDatabaseHas(
+            with(new Camera)->getTable(),
+            $newAttributes
+        );
     }
 
     /**
@@ -56,7 +85,7 @@ class CameraTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testDestroyOneCameraById()
+    public function testDestroyOneCamera()
     {
         $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
         $response = $this->delete("api/cameras/{$camera->id}");
@@ -67,8 +96,8 @@ class CameraTest extends TestCase
             [
                 'id' => $camera->id,
                 'name' => $camera->name,
-                'location_id' => $camera->location_id
-             ]
+                'location_id' => $camera->location_id,
+            ]
         );
     }
 }
