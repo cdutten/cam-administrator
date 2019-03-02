@@ -13,21 +13,17 @@ class CreateClientsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients_users', function (Blueprint $table) {
-            //Attributes
+        Schema::create('client_user', function (Blueprint $table) {
             $table->unsignedInteger('client_id');
             $table->unsignedInteger('user_id');
 
-            //Primary Key
             $table->primary(['client_id', 'user_id']);
 
-            //Relations
+
             $table->foreign('client_id')
-                ->references('id')
-                ->on('clients');
+                ->references('id')->on('clients');
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
+                ->references('id')->on('users');
         });
     }
 
