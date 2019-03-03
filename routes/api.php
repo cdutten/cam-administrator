@@ -7,8 +7,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/cameras', 'CameraController@index');
-Route::get('/cameras/{camera}', 'CameraController@show');
-Route::post('/cameras', 'CameraController@store');
-Route::delete('/cameras/{camera}', 'CameraController@destroy');
-Route::patch('/cameras/{camera}', 'CameraController@update');
+/** Camera endpoints */
+Route::get('/cameras', 'CamerasController@index');
+Route::get('/cameras/{camera}', 'CamerasController@show');
+Route::post('/cameras', 'CamerasController@store');
+Route::delete('/cameras/{camera}', 'CamerasController@destroy');
+Route::patch('/cameras/{camera}', 'CamerasController@update');
+
+
+/** Location endpoints */
+Route::get('/locations', 'LocationsController@index');
+Route::get('/locations/{location}', 'LocationsController@show');
+Route::post('/locations', 'LocationsController@store');
+Route::patch('/locations/{location}', 'LocationsController@update');
+Route::delete('/locations/{location}', 'LocationsController@destroy');
