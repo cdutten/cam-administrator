@@ -12,24 +12,24 @@ class CameraTest extends TestCase
      *
      * @return void
      */
-    public function testListAllTheCameras()
+    public function testListAllCameras()
     {
         $response = $this->get('api/cameras');
         $response->assertStatus(200)
-        ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]])
-        ->assertJsonStructure([
-            'current_page',
-            'first_page_url',
-            "from",
-            "last_page",
-            "last_page_url",
-            "next_page_url",
-            "path",
-            "per_page",
-            'prev_page_url',
-            "to",
-            "total"
-        ]);
+            ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]])
+            ->assertJsonStructure([
+                'current_page',
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'next_page_url',
+                'path',
+                'per_page',
+                'prev_page_url',
+                'to',
+                'total'
+            ]);
     }
 
     /**
@@ -42,7 +42,7 @@ class CameraTest extends TestCase
         $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
         $response = $this->get("api/cameras/{$camera->id}");
         $response->assertStatus(200)
-                 ->assertJsonStructure(['data' => ["name", "location_id"]]);
+            ->assertJsonStructure(['data' => ["id", "name", "location_id"]]);
     }
 
     /**
@@ -73,10 +73,9 @@ class CameraTest extends TestCase
     {
         /** @var Camera $camera */
         $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
-        $newAttributes = [
-            'name' => 'new beautiful name',
+        $newAttributes = factory(Camera::class)->make([
             'location_id' => \CamerasTableSeeder::getRandomLocationId()
-        ];
+        ])->getAttributes();
         $response = $this->patch("api/cameras/{$camera->id}", $newAttributes);
         $response->assertStatus(200);
         $this->assertDatabaseMissing(with(new Camera)->getTable(), $camera->getAttributes());
@@ -94,10 +93,6 @@ class CameraTest extends TestCase
         $camera = factory(Camera::class)->create(['location_id' => \CamerasTableSeeder::getRandomLocationId()]);
         $response = $this->delete("api/cameras/{$camera->id}");
         $response->assertStatus(200);
-
-        $this->assertSoftDeleted(
-            with(new Camera)->getTable(),
-            $camera->getAttributes()
-        );
+        $this->assertSoftDeleted(with(new Camera)->getTable(), $camera->getAttributes());
     }
 }
