@@ -16,7 +16,20 @@ class CameraTest extends TestCase
     {
         $response = $this->get('api/cameras');
         $response->assertStatus(200)
-                 ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]]);
+        ->assertJsonStructure(['data' => ['*' => ['id', 'name',]]])
+        ->assertJsonStructure([
+            'current_page',
+            'first_page_url',
+            "from",
+            "last_page",
+            "last_page_url",
+            "next_page_url",
+            "path",
+            "per_page",
+            'prev_page_url',
+            "to",
+            "total"
+        ]);
     }
 
     /**
