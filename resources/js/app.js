@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,8 +5,17 @@
  */
 
 require('./bootstrap');
+import VueRouter from 'vue-router';
 
 window.Vue = require('vue');
+
+Vue.use(VueRouter);
+
+
+import Home from './components/Home.vue';
+import Cameras from './components/Cameras.vue';
+import App from './components/App.vue';
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +28,22 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/cameras',
+            name: 'cameras',
+            component: Cameras,
+        },
+    ],
+});
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +52,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: { App },
+    router
 });
