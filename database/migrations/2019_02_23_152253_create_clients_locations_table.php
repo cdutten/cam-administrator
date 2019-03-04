@@ -13,15 +13,12 @@ class CreateClientsLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients_locations', function (Blueprint $table) {
-            //Attributes
+        Schema::create('client_location', function (Blueprint $table) {
             $table->unsignedInteger('client_id');
             $table->unsignedInteger('location_id');
 
-            //Primary Key
             $table->primary(['client_id', 'location_id']);
 
-            //Relations
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients');
